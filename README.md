@@ -29,8 +29,6 @@ This project uses the Random Forest algorithm to classify breast tumors as benig
 ```
 tp2/
 ├── random_forest_breast_cancer.md    # Jupyter notebook content
-├── report.md                          # LaTeX report in markdown
-├── context.md                         # Project requirements
 ├── README.md                          # This file
 └── requirements.txt                   # Python dependencies
 ```
