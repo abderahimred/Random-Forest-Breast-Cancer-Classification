@@ -95,10 +95,3 @@ Two optimization techniques are implemented:
 1. **Feature Selection:** Uses importance scores to select the most predictive features
 2. **SMOTE:** Synthetic Minority Over-sampling Technique to handle class imbalance
 
-## License
-
-This project is for educational purposes.
-
-## Author
-
-Machine Learning Course Project - December 2025
