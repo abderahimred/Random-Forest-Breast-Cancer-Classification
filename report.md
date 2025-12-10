@@ -84,6 +84,52 @@ The main objectives of this project are:
     \item Evaluate the model using standard classification metrics
 \end{enumerate}
 
+\subsection{Theoretical Background}
+
+\subsubsection{Random Forest Algorithm}
+
+Random Forest is an ensemble learning method that operates by constructing multiple decision trees during training. Each tree is built using a random subset of the training data (bootstrap sampling) and a random subset of features at each split. The final prediction is made by aggregating the predictions of all individual trees through majority voting for classification or averaging for regression.
+
+The key advantages of Random Forest include:
+\begin{itemize}
+    \item Resistance to overfitting due to averaging multiple trees
+    \item Ability to handle high dimensional data with many features
+    \item Built-in feature importance estimation
+    \item Robustness to noise and outliers in the data
+\end{itemize}
+
+\subsubsection{Evaluation Metrics}
+
+The following metrics are used to evaluate model performance:
+
+\textbf{Accuracy:} The proportion of correct predictions among all predictions made. It is calculated as:
+\begin{equation}
+    Accuracy = \frac{TP + TN}{TP + TN + FP + FN}
+\end{equation}
+
+\textbf{Precision:} The proportion of true positive predictions among all positive predictions. It measures how many of the predicted positives are actually positive:
+\begin{equation}
+    Precision = \frac{TP}{TP + FP}
+\end{equation}
+
+\textbf{Recall (Sensitivity):} The proportion of actual positives that are correctly identified. It measures how many of the actual positives are captured:
+\begin{equation}
+    Recall = \frac{TP}{TP + FN}
+\end{equation}
+
+\textbf{F1-Score:} The harmonic mean of precision and recall, providing a balanced measure when both metrics are important:
+\begin{equation}
+    F1 = 2 \times \frac{Precision \times Recall}{Precision + Recall}
+\end{equation}
+
+\textbf{ROC-AUC:} The Area Under the Receiver Operating Characteristic Curve. It measures the model's ability to distinguish between classes across all classification thresholds. A value of 1.0 indicates perfect classification, while 0.5 indicates random guessing.
+
+\textbf{Confusion Matrix:} A table that shows the counts of true positives (TP), true negatives (TN), false positives (FP), and false negatives (FN). It provides a detailed breakdown of prediction outcomes.
+
+\subsubsection{SMOTE Algorithm}
+
+Synthetic Minority Over-sampling Technique (SMOTE) is a method for handling class imbalance. Instead of simply duplicating minority class samples, SMOTE creates synthetic examples by interpolating between existing minority samples. For each minority sample, it finds its k nearest neighbors and creates new samples along the line segments connecting them.
+
 \section{Methodology}
 
 \subsection{Preprocessing Steps}
@@ -221,11 +267,35 @@ Features related to "worst" measurements (computed from the three largest cell n
 
 \subsection{Visualization}
 
-Several visualizations are generated to understand model behavior:
+Several visualizations are generated to understand model behavior and performance.
 
-\textbf{Decision Tree Plot:} A single tree from the Random Forest is visualized using sklearn's plot\_tree function. The visualization shows the split conditions, class distributions at each node, and the decision path.
+\subsubsection{Class Distribution}
 
-\textbf{Confusion Matrix:} The confusion matrix for the tuned model shows:
+Figure \ref{fig:class_dist} shows the distribution of diagnosis classes in the dataset. The bar chart displays the count of benign and malignant samples, highlighting the class imbalance present in the data. Approximately 63\% of samples are benign while 37\% are malignant.
+
+\begin{figure}[H]
+    \centering
+    % INSERT: Bar chart showing Benign vs Malignant class counts
+    % \includegraphics[width=0.6\textwidth]{class_distribution.png}
+    \caption{Distribution of diagnosis classes in the dataset}
+    \label{fig:class_dist}
+\end{figure}
+
+\subsubsection{Feature Importance}
+
+Figure \ref{fig:feature_imp} displays the feature importance scores computed by the Random Forest model. The horizontal bar chart ranks all 30 features by their contribution to the classification decision. Features related to concave points, perimeter, and radius measurements show the highest importance values.
+
+\begin{figure}[H]
+    \centering
+    % INSERT: Horizontal bar chart of feature importances (all 30 features ranked)
+    % \includegraphics[width=0.8\textwidth]{feature_importance.png}
+    \caption{Feature importance scores from the Random Forest classifier}
+    \label{fig:feature_imp}
+\end{figure}
+
+\subsubsection{Confusion Matrices}
+
+Figure \ref{fig:confusion} shows the confusion matrices for all five model variants. Each heatmap displays the counts of true positives, true negatives, false positives, and false negatives. The tuned model shows:
 \begin{itemize}
     \item True Negatives (correctly identified benign): 70
     \item True Positives (correctly identified malignant): 42
@@ -233,7 +303,61 @@ Several visualizations are generated to understand model behavior:
     \item False Negatives (malignant predicted as benign): 1
 \end{itemize}
 
-\textbf{ROC Curve:} All models achieve AUC scores above 0.99, indicating excellent discrimination ability. The curves are nearly identical, confirming that all variants perform at a high level.
+\begin{figure}[H]
+    \centering
+    % INSERT: Grid of 5 confusion matrix heatmaps (2x3 layout, one for each model)
+    % \includegraphics[width=0.9\textwidth]{confusion_matrices.png}
+    \caption{Confusion matrices for all model variants}
+    \label{fig:confusion}
+\end{figure}
+
+\subsubsection{ROC Curves}
+
+Figure \ref{fig:roc} presents the Receiver Operating Characteristic curves for all five models. All models achieve AUC scores above 0.99, indicating excellent discrimination ability. The curves are nearly overlapping, confirming that all variants perform at a similarly high level.
+
+\begin{figure}[H]
+    \centering
+    % INSERT: ROC curves plot with all 5 models overlaid, including diagonal reference line
+    % \includegraphics[width=0.7\textwidth]{roc_curves.png}
+    \caption{ROC curves comparison for all model variants}
+    \label{fig:roc}
+\end{figure}
+
+\subsubsection{Model Performance Comparison}
+
+Figure \ref{fig:comparison} shows a grouped bar chart comparing all five models across the evaluation metrics. This visualization makes it easy to identify which models excel in specific metrics and the overall performance differences.
+
+\begin{figure}[H]
+    \centering
+    % INSERT: Grouped bar chart with 5 model groups, each having 5 bars for metrics
+    % \includegraphics[width=0.85\textwidth]{model_comparison.png}
+    \caption{Performance comparison across all models and metrics}
+    \label{fig:comparison}
+\end{figure}
+
+\subsubsection{Decision Tree Visualization}
+
+Figure \ref{fig:tree} displays a single decision tree from the Random Forest ensemble. The tree is limited to depth 3 for readability. Each node shows the split condition, the number of samples, and the class distribution. The color intensity indicates the dominant class at each node.
+
+\begin{figure}[H]
+    \centering
+    % INSERT: Decision tree plot from sklearn's plot_tree (depth limited to 3-4)
+    % \includegraphics[width=0.95\textwidth]{decision_tree.png}
+    \caption{Visualization of a single decision tree from the Random Forest}
+    \label{fig:tree}
+\end{figure}
+
+\subsubsection{SMOTE Effect}
+
+Figure \ref{fig:smote} shows the class distribution before and after applying SMOTE. The side-by-side bar charts demonstrate how SMOTE balances the training set by generating synthetic minority class samples.
+
+\begin{figure}[H]
+    \centering
+    % INSERT: Two bar charts side by side - before SMOTE vs after SMOTE class distribution
+    % \includegraphics[width=0.7\textwidth]{smote_effect.png}
+    \caption{Class distribution before and after SMOTE oversampling}
+    \label{fig:smote}
+\end{figure}
 
 \subsection{Discussion}
 
