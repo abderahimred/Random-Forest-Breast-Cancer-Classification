@@ -44,7 +44,7 @@ tp2/
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/random-forest-breast-cancer.git
+git clone https://github.com/abderahimred/random-forest-breast-cancer.git
 cd random-forest-breast-cancer
 ```
 
